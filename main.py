@@ -11,17 +11,17 @@ async def send_message():
     while True:  # Infinite loop to keep reconnecting
         try:
             async with websockets.connect(WEBSOCKET_URL) as websocket:
-
                 await websocket.send("Accept: MOTD")
-
+                # Optionally, receive a response
                 try:
                     response = await websocket.recv()
+                    print(f"Received: {response}")
                 except Exception as e:
-                    pass
-
+                   pass
         except (websockets.exceptions.WebSocketException, asyncio.CancelledError) as e:
-            pass
+            print(f"Connection lost or failed: {e}")
 
+# Function to run the WebSocket client in a separate thread
 def run_client():
     asyncio.run(send_message())
 
